@@ -1,6 +1,7 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import Login from '../login';
+import { UserInfo } from '../userInfo';
 // hooks
 
 // config
@@ -14,15 +15,17 @@ export default function Router() {
     return useRoutes([
         {
             path: '/',
-
             element: (
 
                 <Login />
-
             ),
-
         },
-
+        {
+            path: '/info',
+            element: (
+                <UserInfo />
+            ),
+          },
 
 
     ]);
