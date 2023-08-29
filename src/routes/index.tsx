@@ -1,6 +1,7 @@
 import { Suspense, lazy, ElementType } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 import Login from '../login';
+import Register from '../register';
 import { UserInfo } from '../userInfo';
 // hooks
 
@@ -26,7 +27,13 @@ export default function Router() {
                 <UserInfo />
             ),
           },
+          {
+            path: '/register',
+            element: (
 
+                <Register />
+            ),
+        },
 
     ]);
 }
