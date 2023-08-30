@@ -29,27 +29,20 @@ export default function Login() {
     const { email, password } = data
     try {
       const res = await signInWithEmailAndPassword(auth, email, password);
-      console.log(res)
       dispatch(setCurrentUser({
         uid: res.user.uid,
         name: res.user.displayName,
         email,
       }))
-      console.log("hello 1")
       const q = query(
         collection(db, "users"),
         where("uid", "==", (res.user.uid ?? ""))
     );
-    console.log(await getDocs(q))
     if(q){
-      console.log("hello 2")
       await updateDoc(doc(db, "users", res.user.uid), {
      status:true
       });
     }
-      
-      console.log("hello 2")
-
       navigate('/info')
     } catch (err) {
       console.log(err)
