@@ -16,14 +16,10 @@ import { setCurrentUser } from '../userInfo/userInfo.slice';
 export default function Register() {
     const { enqueueSnackbar } = useSnackbar();
     const methods = useForm<any>({
-        // resolver: yupResolver(LoginSchemyara),
-        // defaultValues,
     });
     const { showPassword } = useSelector(state => state.register)
     const navigate = useNavigate();
     const {
-        reset,
-        setError,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = methods;
@@ -31,44 +27,31 @@ export default function Register() {
         const { name, email, password } = data
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-            console.log("hello")
 
-            console.log(res)
             try {
-                //Update profile
                 await updateProfile(res.user, {
                     displayName: name,
                 });
-                //create user on firestore
                 await setDoc(doc(db, "users", res.user.uid), {
                     uid: res.user.uid,
                     name,
                     email,
+                    notiNewMessage:false,
                     status:false
                 });
-                console.log({
-                    uid: res.user.uid,
-                    name,
-                    email,
-                })
-
-                //create empty user chats on firestore
-                await setDoc(doc(db, "userChats", res.user.uid), {});
-
+              
+            
 
             } catch (err) {
-                console.log("hello")
                 console.log(err);
             }
           
-            enqueueSnackbar("Email is already", {
+            enqueueSnackbar("Register is successful", {
                 variant: 'success'
             });
             navigate("/");
         } catch (error: any) {
-            console.log(error?.code)
             if (error.code === "auth/email-already-in-use") {
-                console.log("hello")
                 enqueueSnackbar("Email is already", {
                     variant: 'error'
 

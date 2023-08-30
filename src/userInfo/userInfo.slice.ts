@@ -3,28 +3,47 @@ import { RootState } from '../redux/store';
 
 type StateProps = {
   currentUser:any,
-  chats:any[]
+  chats:any[],
+  reload:boolean,
+  users:any[],
+  open:boolean,
+  userModal:any,
 };
 const initialState: StateProps = {
   currentUser:{},
-  chats:[]
+  chats:[],
+  reload:false,
+  users:[],
+  open:false,
+  userModal:{}
+
 };
 export const userInfoSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers: {
     setCurrentUser: (state, action) => {
-      console.log("check redux nef",action.payload)
       state.currentUser = action.payload;
     },
     setChats: (state, action) => {
       state.chats = action.payload;
     },
-    
+    setReload:(state, action) => {
+      state.reload = action.payload;
+    },
+    setUserListOnline:(state, action) => {
+      state.users = action.payload;
+    },
+    setOpen:(state, action) => {
+      state.open = action.payload;
+    },
+    setUserModal:(state, action) => {
+      state.userModal = action.payload;
+    }
   },
 });
 
-export const { setCurrentUser,setChats } =
+export const { setCurrentUser,setChats,setReload,setUserListOnline,setOpen,setUserModal, } =
   userInfoSlice.actions;
 
 
