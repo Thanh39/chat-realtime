@@ -1,7 +1,7 @@
 import './App.css';
 import { QueryClient,QueryClientProvider } from 'react-query';
-import Router from './routes';
-import NotistackProvider from './hook-form/NotistackProvider';
+import Router from './common/routes';
+import NotistackProvider from './common/hook-form/NotistackProvider';
 
 function App() {
   const queryClient = new QueryClient({

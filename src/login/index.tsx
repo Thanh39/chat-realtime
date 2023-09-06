@@ -1,9 +1,9 @@
 import { IconButton, InputAdornment, Link, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import RHFTextField from '../hook-form/RHFTextField';
-import Iconify from '../hook-form/Iconify';
-import { dispatch, useSelector } from '../redux/store';
+import RHFTextField from '../common/hook-form/RHFTextField';
+import Iconify from '../common/hook-form/Iconify';
+import { dispatch, useSelector } from '../common/redux/store';
 import { setShowPassword } from './login.slice';
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +11,14 @@ import { signInWithEmailAndPassword } from '@firebase/auth';
 import { auth, db } from '../common/firebase';
 import { setCurrentUser } from '../userInfo/userInfo.slice';
 import { collection, doc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore';
+import { schema } from './schema';
+import { DEFAULT_VALUE } from './constants';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function Login() {
   const methods = useForm<any>({
-    // resolver: yupResolver(LoginSchemyara),
-    // defaultValues,
+    resolver: yupResolver(schema),
+    defaultValues: DEFAULT_VALUE,
   });
   const { showPassword } = useSelector(state => state.login)
   const navigate = useNavigate();

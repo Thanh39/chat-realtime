@@ -1,9 +1,9 @@
 import { IconButton, InputAdornment, Link, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import RHFTextField from '../hook-form/RHFTextField';
-import Iconify from '../hook-form/Iconify';
-import { dispatch, useSelector } from '../redux/store';
+import RHFTextField from '../common/hook-form/RHFTextField';
+import Iconify from '../common/hook-form/Iconify';
+import { dispatch, useSelector } from '../common/redux/store';
 import { setShowPassword } from './register.slice';
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +13,15 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from '@firebase/firestore';
 import { useSnackbar } from 'notistack';
 import { setCurrentUser } from '../userInfo/userInfo.slice';
+import { DEFAULT_VALUE } from './constants';
+import { schema } from './schema';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 export default function Register() {
     const { enqueueSnackbar } = useSnackbar();
     const methods = useForm<any>({
+        resolver: yupResolver(schema),
+        defaultValues: DEFAULT_VALUE,
     });
     const { showPassword } = useSelector(state => state.register)
     const navigate = useNavigate();

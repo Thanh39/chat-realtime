@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../redux/store';
+import { RootState } from '../common/redux/store';
 
 type StateProps = {
   currentUser:any,
   chats:any[],
-  reload:boolean,
   users:any[],
   open:boolean,
   userModal:any,
@@ -12,7 +11,6 @@ type StateProps = {
 const initialState: StateProps = {
   currentUser:{},
   chats:[],
-  reload:false,
   users:[],
   open:false,
   userModal:{}
@@ -28,9 +26,6 @@ export const userInfoSlice = createSlice({
     setChats: (state, action) => {
       state.chats = action.payload;
     },
-    setReload:(state, action) => {
-      state.reload = action.payload;
-    },
     setUserListOnline:(state, action) => {
       state.users = action.payload;
     },
@@ -43,7 +38,7 @@ export const userInfoSlice = createSlice({
   },
 });
 
-export const { setCurrentUser,setChats,setReload,setUserListOnline,setOpen,setUserModal, } =
+export const { setCurrentUser,setChats,setUserListOnline,setOpen,setUserModal, } =
   userInfoSlice.actions;
 
 

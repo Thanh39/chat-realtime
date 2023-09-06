@@ -3,13 +3,15 @@ import { Box, Stack, Typography } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "../common/firebase";
-import { dispatch, useSelector } from "../redux/store";
+import { dispatch, useSelector } from "../common/redux/store";
 import Header from "./components/Header";
 import ModalChatBox from "./components/ModalChatBox";
-import { setOpen, setReload, setUserListOnline, setUserModal } from "./userInfo.slice";
+import { setOpen, setUserListOnline, setUserModal } from "./userInfo.slice";
+import { useNavigate } from 'react-router-dom';
 
 export function UserInfo() {
-    const { currentUser, reload, users, open, userModal } = useSelector(state => state.userInfo)
+    const navigate =useNavigate()
+    const { currentUser, users, open, userModal } = useSelector(state => state.userInfo)
     useEffect(() => {
         const logUserOnline = async () => {
             const q = query(
@@ -24,13 +26,12 @@ export function UserInfo() {
 
             });
         }
-        const intervalId =  setInterval( logUserOnline, 1000);
-       
-return()=>{
-    clearInterval(intervalId)
-}
-    }, [currentUser?.uid, reload]);
-    console.log(reload)
+        const intervalId = setInterval(logUserOnline, 1000);
+
+        return () => {
+            clearInterval(intervalId)
+        }
+    }, [currentUser?.uid]);
     const handleModal = async (user: any) => {
         const combinedId =
             currentUser.uid > user.uid
@@ -48,7 +49,6 @@ return()=>{
         }
         dispatch(setOpen(true));
         dispatch(setUserModal(user))
-        dispatch(setReload(false))
     }
 
     const handleClose = () => dispatch(setOpen(false));
@@ -62,19 +62,19 @@ return()=>{
                 <Typography fontWeight={700} p={2} variant="h4">Danh sách user đang online </Typography>
                 <Stack px={2} display={"flex"} direction={"row"} >{
                     users?.length ? (users.map(user => (<Box onClick={() => handleModal(user)} sx={{ display: 'flex', width: "10%", gap: 2, alignItems: 'center', flexDirection: "column" }}>
-                     <Box width={"10px"} height={"10px"} bgcolor={user?.notiNewMessage ? "red" :"transparent"}
-                        borderRadius={4}
-                        zIndex={9999999} sx={{
-                            position: "relative",
-                            left:" 16%",
-                            top: "26%"
-                        }}
-                          ></Box>
-                        
-                            <Avatar src="public/avatar.jpg" />
+                        <Box width={"10px"} height={"10px"} bgcolor={user?.notiNewMessage ? "red" : "transparent"}
+                            borderRadius={4}
+                            zIndex={9999999} sx={{
+                                position: "relative",
+                                left: " 16%",
+                                top: "26%"
+                            }}
+                        ></Box>
+
+                        <Avatar src="public/avatar.jpg" />
 
                         {user?.name}
-                        
+
                     </Box>))) : (<Stack display={"flex"} spacing={2} alignItems={"center"} direction={"row"}><Button loading variant="plain">
 
                     </Button><Typography> Waiting for online user </Typography></Stack>)

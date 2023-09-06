@@ -3,13 +3,13 @@ import { Box, Stack, Typography } from "@mui/material";
 import { collection, doc, query, updateDoc, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { db } from '../../common/firebase';
-import Iconify from '../../hook-form/Iconify';
-import { dispatch, useSelector } from '../../redux/store';
+import Iconify from '../../common/hook-form/Iconify';
+import { dispatch, useSelector } from '../../common/redux/store';
 import { ACCOUNT_MENU_OPTIONS } from '../constants';
-import { setReload } from '../userInfo.slice';
+import { setCurrentUser, setUserListOnline } from '../userInfo.slice';
 
 export default function Header (){
-    const { currentUser, reload, users,open,userModal } = useSelector(state => state.userInfo)
+    const { currentUser, users,open,userModal } = useSelector(state => state.userInfo)
     return (
         <Stack width={"10%"} m={2} >
         <Dropdown>
@@ -45,7 +45,9 @@ export default function Header (){
                                         status: false
                                     });
                                 }
-                                dispatch(setReload(true))
+                                dispatch(setCurrentUser({}))
+                                dispatch(setUserListOnline([]))
+
                             }}
                         >
                             {option.label}

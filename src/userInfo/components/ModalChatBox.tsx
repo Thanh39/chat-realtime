@@ -11,8 +11,8 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db } from "../../common/firebase";
-import { dispatch, useSelector } from "../../redux/store";
-import { setChats, setReload } from "../userInfo.slice";
+import { dispatch, useSelector } from "../../common/redux/store";
+import { setChats } from "../userInfo.slice";
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -54,7 +54,6 @@ export default function ModalChatBox(props: Props) {
             notiNewMessage: false,
         });
         setText("")
-        dispatch(setReload(true))
     };
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "chats", chatId), (doc) => {
